@@ -25,17 +25,13 @@ MENU = {
 }
 
 resources = {
-    "water": 300,
-    "milk": 200,
-    "coffee": 100,
-    "amount":0, # Edit resources
+    "water": 50000,
+    "milk": 20000,
+    "coffee": 10000,
 }
-
-
-# TODO: 1 Prompt user by asking "What would you like? (espresso/latte/cappuccino):"
+revenue = 0
 
 # TODO: 2 Turn off the Coffee Machine by entering “off” to the prompt.
-#control = input("Turn off Coffee Machine. Type 'off'")
 def off(value):
   """Using turn off Coffee Machine"""
   print("Coffee Manchine shutdown!")
@@ -43,17 +39,14 @@ def off(value):
 # TODO: 3 Print report
 def report():
   """Using print Report Coffee Machine"""
-  print(f"water: {resources['water']}")
-  print(f"milk: {resources['milk']}")
-  print(f"coffee: {resources['coffee']}")
-  print(f"amount: {resources['amount']}")
+  global revenue
+  print(f"water: {resources['water']} ml")
+  print(f"milk: {resources['milk']} ml")
+  print(f"coffee: {resources['coffee']} ml")
+  print(f"amount: ${revenue}")
+  
 # TODO: 4 Check resources sufficient?
 def resources_sufficient(coffee):
-  
-  # print(f"water: {resources['water']}")
-  # print(f"milk: {resources['milk']}")
-  # print(f"coffee: {resources['coffee']}")
-  
   order = MENU[coffee]['ingredients']  
   for item in order:
     if order[item] > resources[item]:
@@ -61,37 +54,54 @@ def resources_sufficient(coffee):
       return False
     return True
 
-# TODO: 5 Process coins.
-  #def processcoins(quarters,dimes): 
-  #  quarters = $0.25, dimes = $0.10, nickles = $0.05, pennies = $0.01
 # TODO: 6 Check transaction successful?
-    
+def transaction(coffee,amount):
+  cost = MENU[coffee]['cost']
+  if cost > amount:
+    print("Sorry that's not enough money. Money refunded")
+    print(amount)
+    return False  
+  return True
 # TODO: 7 Make Coffee.
-  
+def make_coffee(coffee,amount):
+  order = MENU[coffee]['ingredients']  
+  for item in order:
+    resources[item] = resources[item] - order[item]
+  revenue = MENU[coffee]['cost']
+  repayment = round(amount - MENU[coffee]['cost'],2)
+  print(f"Here is ${repayment} in change.")
+  print( "Here is your latte. Enjoy")
+  return revenue
+
+#Control manchine  
 controlmanchine = {
- #"off": off,
- #"report": report,
   "espresso": resources_sufficient,
   "latte": resources_sufficient,
   "cappuccino":resources_sufficient,
 }
 # Run Machine 
-  # Dùng dictionary để làm bộ câu lệnh
-machine_off = False
-while not machine_off:
-  select = input("What would you like? (espresso/latte/cappuccino):") 
-  
-  if select in controlmanchine:
-    drink = controlmanchine[select](select)
+def coffee_machine():
+  coins = 0
+  machine_off = False
+  while not machine_off
+  # TODO: 1 Prompt user by asking "What would you like? (espresso/latte/cappuccino):"
+    select = input("What would you like? (espresso/latte/cappuccino):") 
     
-  elif select == "report":
-    report()
-  elif select =="off":
-    machine_off = off(select)
+    if select in controlmanchine:
+      drink = controlmanchine[select](select)
+      if drink == True:
+        # TODO: 5 Process coins.
+        coins += float(input("quarters:")) * 0.25
+        coins += float(input("dimes:")) * 0.1
+        coins += float(input("nickles:")) * 0.05
+        coins += float(input("pennies:")) * 0.01
+        if transaction(select,coins) == True:
+           amount = make_coffee(select,coins)
+           global revenue
+           revenue += amount
+    elif select == "report":
+      report()
+    elif select =="off":
+      machine_off = off(select)
 
-# if select == "report":
-#   report()
-# elif select =="off":
-#   print(off())
-# elif select =="espresso" or select == "latte" or select == "cappuccino":
-#   resources_sufficient()
+coffee_machine()
