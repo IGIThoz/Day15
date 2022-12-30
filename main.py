@@ -52,6 +52,7 @@ def resources_sufficient(coffee):
     if order[item] > resources[item]:
       print(f"Sorry there is not enough {item}.")
       return False
+    print(f"Price {coffee}: ${MENU[coffee]['cost']}")
     return True
 
 # TODO: 6 Check transaction successful?
@@ -60,7 +61,7 @@ def transaction(coffee,amount):
   if cost > amount:
     print("Sorry that's not enough money. Money refunded")
     print(amount)
-    return False  
+    return False   
   return True
 # TODO: 7 Make Coffee.
 def make_coffee(coffee,amount):
@@ -83,7 +84,7 @@ controlmanchine = {
 def coffee_machine():
   coins = 0
   machine_off = False
-  while not machine_off
+  while not machine_off:
   # TODO: 1 Prompt user by asking "What would you like? (espresso/latte/cappuccino):"
     select = input("What would you like? (espresso/latte/cappuccino):") 
     
