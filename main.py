@@ -25,9 +25,9 @@ MENU = {
 }
 
 resources = {
-    "water": 50000,
-    "milk": 20000,
-    "coffee": 10000,
+    "water": 300,
+    "milk": 200,
+    "coffee": 100,
 }
 revenue = 0
 
@@ -73,7 +73,11 @@ def make_coffee(coffee,amount):
   print(f"Here is ${repayment} in change.")
   print( "Here is your latte. Enjoy")
   return revenue
-
+# TODO: 8 Add Resources
+def add_resources():
+  global resources
+  for item in resources:
+        resources[item] += 500
 #Control manchine  
 controlmanchine = {
   "espresso": resources_sufficient,
@@ -88,7 +92,15 @@ def coffee_machine():
   # TODO: 1 Prompt user by asking "What would you like? (espresso/latte/cappuccino):"
     select = input("What would you like? (espresso/latte/cappuccino):") 
     
-    if select in controlmanchine:
+    if select == "add":
+      #global add_resources
+      add_resources()
+    elif select == "report":
+      report()
+    elif select =="off":
+      machine_off = off(select)
+    #else:
+    elif select in controlmanchine:
       drink = controlmanchine[select](select)
       if drink == True:
         # TODO: 5 Process coins.
@@ -100,9 +112,5 @@ def coffee_machine():
            amount = make_coffee(select,coins)
            global revenue
            revenue += amount
-    elif select == "report":
-      report()
-    elif select =="off":
-      machine_off = off(select)
 
 coffee_machine()
